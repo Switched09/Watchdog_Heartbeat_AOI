@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--AIO to check heartbeat signals that can be DINT/INT and generate and alarm if the heartbeat stop updating its value-->
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="30.00" TargetName="Watchdog_Heatbeat_AOI" TargetType="AddOnInstructionDefinition" TargetRevision="1.0 " TargetLastEdited="2025-06-09T19:56:05.923Z" ContainsContext="true" Owner="Windows User" ExportDate="Mon Jun 09 16:45:44 2025" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="Jofrre_Meter_PLC">
+<DataTypes Use="Context">
+</DataTypes>
+<AddOnInstructionDefinitions Use="Context">
+<AddOnInstructionDefinition Use="Target" Name="Watchdog_Heatbeat_AOI" Revision="1.0" ExecutePrescan="false" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2025-06-09T14:36:42.774Z" CreatedBy="PMX-EWS-WIN7-V1\Calworx" EditedDate="2025-06-09T19:56:05.923Z" EditedBy="PMX-EWS-WIN7-V1\Calworx" SoftwareRevision="v30.00"
+>
+<Description>
+<![CDATA[AIO to check heartbeat signals that can be DINT/INT and generate and alarm if the heartbeat stop updating its value]]>
+</Description>
+<Parameters>
+<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Input - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Output - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="Inp_Heartbeat" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Heartbeat Signal]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Out_Watchdog_Alarm" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Watchdog Alarm
+1 = Alarm]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Inp_Watchdog_Timer_Preset" TagType="Base" DataType="DINT" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Watchdog Timer Preset in miliseconds]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[30000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="30000"/>
+</DefaultData>
+</Parameter>
+</Parameters>
+<LocalTags>
+<LocalTag Name="Heartbeat_ALM_TMR" DataType="TIMER" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0,10000,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="TIMER">
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="10000"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="WD_COMM_ONS" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Inp_Heartbeat_Prev" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Heartbeat_PrevLast_TMR" DataType="TIMER" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="TIMER">
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="InternalHeartbeat_PrevLast_Preset" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Inp_Heartbeat_PrevLast" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Prev_Heartbeat_Changed" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="ONS_Update_Prev" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+</LocalTags>
+<Routines>
+<Routine Name="Logic" Type="RLL">
+<RLLContent>
+<Rung Number="0" Type="N">
+<Comment>
+<![CDATA[=========================================================
+Watchdog Timer Preset in miliseconds
+=========================================================]]>
+</Comment>
+<Text>
+<![CDATA[MOV(Inp_Watchdog_Timer_Preset,Heartbeat_ALM_TMR.PRE);]]>
+</Text>
+</Rung>
+<Rung Number="1" Type="N">
+<Comment>
+<![CDATA[======================================================================
+Heartbeat signal Check for changes
+======================================================================]]>
+</Comment>
+<Text>
+<![CDATA[NEQ(Inp_Heartbeat,Inp_Heartbeat_Prev)[TOF(Heartbeat_ALM_TMR,?,?) ,ONS(WD_COMM_ONS) MOV(Inp_Heartbeat,Inp_Heartbeat_Prev) ];]]>
+</Text>
+</Rung>
+<Rung Number="2" Type="N">
+<Comment>
+<![CDATA[======================================================================================================================
+Next 5 rungs are used to ensure the 
+Inp_Heartbeat_Prev receive a valid number if the Oneshet instruction WD_COMM_ONS 
+on rung 1 does not activate the MOV instruction
+This was an issue detected during a download to the Prosoft MVI56E-MNETC card that set to zero Inp_Heartbeat and created a false positive
+======================================================================================================================
+
+]]>
+</Comment>
+<Text>
+<![CDATA[NEQ(Inp_Heartbeat_Prev,Inp_Heartbeat_PrevLast)OTE(Prev_Heartbeat_Changed);]]>
+</Text>
+</Rung>
+<Rung Number="3" Type="N">
+<Text>
+<![CDATA[XIC(Prev_Heartbeat_Changed)[MOV(Inp_Heartbeat_Prev,Inp_Heartbeat_PrevLast) ,RES(Heartbeat_PrevLast_TMR) ];]]>
+</Text>
+</Rung>
+<Rung Number="4" Type="N">
+<Text>
+<![CDATA[ADD(Inp_Watchdog_Timer_Preset,3100,InternalHeartbeat_PrevLast_Preset)MOV(InternalHeartbeat_PrevLast_Preset,Heartbeat_PrevLast_TMR.PRE);]]>
+</Text>
+</Rung>
+<Rung Number="5" Type="N">
+<Text>
+<![CDATA[XIO(Prev_Heartbeat_Changed)TON(Heartbeat_PrevLast_TMR,?,?);]]>
+</Text>
+</Rung>
+<Rung Number="6" Type="N">
+<Text>
+<![CDATA[XIC(Heartbeat_PrevLast_TMR.DN)ONS(ONS_Update_Prev)MOV(Inp_Heartbeat,Inp_Heartbeat_Prev);]]>
+</Text>
+</Rung>
+<Rung Number="7" Type="N">
+<Comment>
+<![CDATA[===============================================================
+Watchdog Alarm
+If no changes are detected and the TOF timer expire then the .DN bit is FALSE
+and the Out_Watchdog_Alarm is activated
+===============================================================]]>
+</Comment>
+<Text>
+<![CDATA[XIO(Heartbeat_ALM_TMR.DN)OTE(Out_Watchdog_Alarm);]]>
+</Text>
+</Rung>
+</RLLContent>
+</Routine>
+</Routines>
+</AddOnInstructionDefinition>
+</AddOnInstructionDefinitions>
+</Controller>
+</RSLogix5000Content>
